@@ -9,7 +9,11 @@
 import UIKit
 import MapKit
 
-//delegate add trouhgt storyboard
+//This I need to change the color for the pin
+class MyPointAnnotation : MKPointAnnotation {
+    var pinTintColor: UIColor?
+}
+
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -24,23 +28,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let washington = Capital(title: "Washington DC", coordinate: CLLocationCoordinate2D(latitude: 38.895111, longitude: -77.036667), info: "Named after George himself.")
         
         mapView.addAnnotations([london, oslo, paris, rome, washington])
-        
+        self.mapView.delegate = self
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
         guard annotation is Capital else { return nil }
         let identifirer = "Capital"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifirer)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifirer) as? MKPinAnnotationView
         
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifirer)
             annotationView?.canShowCallout = true
-            
             let btn = UIButton(type: .detailDisclosure)
+            //changing color for the pinAnnotation
+            annotationView?.pinTintColor = UIColor.blue
             annotationView?.rightCalloutAccessoryView = btn
         } else {
             annotationView?.annotation = annotation
+        }
+        
+        if let annotation = annotation as? MyPointAnnotation {
+            annotationView?.pinTintColor = annotation.pinTintColor
         }
         return annotationView
     }
