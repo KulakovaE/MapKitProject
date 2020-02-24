@@ -78,6 +78,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
+        ac.addAction(UIAlertAction(title: "Wiki", style: .default, handler: { (action) in
+            DispatchQueue.main.async {
+                //do the DI to show wikipedia view for the clicked city
+                if let webViewController = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController {
+                    if let placeName = placeName {
+                        webViewController.city = placeName
+                        self.navigationController?.pushViewController(webViewController, animated: true)
+                    }
+                }
+            }
+        }))
         present(ac, animated: true)
     }
 
