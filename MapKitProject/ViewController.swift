@@ -29,6 +29,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         mapView.addAnnotations([london, oslo, paris, rome, washington])
         self.mapView.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(rightNavBtnClicked))
+    }
+    
+    @objc func rightNavBtnClicked(action: UIAlertAction) {
+        let ac = UIAlertController(title: "Welcome!", message: "How do you like to see the map?", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Satelite", style: .default, handler: { (action) in
+            DispatchQueue.main.async {
+                self.mapView.mapType = .satellite
+            }
+        }))
+        ac.addAction(UIAlertAction(title: "Hybrid", style: .default, handler: { (action) in
+            DispatchQueue.main.async {
+                self.mapView.mapType = .hybrid
+            }
+        }))
+        present(ac, animated: true)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
