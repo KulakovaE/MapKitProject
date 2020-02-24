@@ -45,6 +45,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 self.mapView.mapType = .hybrid
             }
         }))
+        ac.addAction(UIAlertAction(title: "Standard", style: .default, handler: { (action) in
+            DispatchQueue.main.async {
+                self.mapView.mapType = .standard
+            }
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
         present(ac, animated: true)
     }
     
@@ -91,6 +97,5 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }))
         present(ac, animated: true)
     }
-
 }
 
